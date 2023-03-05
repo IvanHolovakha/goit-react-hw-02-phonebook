@@ -1,6 +1,7 @@
-import { ContactItem } from "./ContactItem";
+import PropTypes from 'prop-types';
+import { ContactItem } from "../ContactItem/ContactItem";
 
-export const ContactList = ({state, onDelete}) => {
+export const ContactList = ({state, onDeleteContact}) => {
     const normalizedFilter = state.filter.toLowerCase();
     const filteredContacts = state.contacts.filter(contact => contact.name.toLowerCase().includes(normalizedFilter));
 
@@ -11,7 +12,12 @@ export const ContactList = ({state, onDelete}) => {
         id={id} 
         name={name} 
         number={number}
-        onDelete={onDelete}
+        onDeleteContact={onDeleteContact}
         />)}
     </ul>;
+}
+
+ContactList.propTypes = {
+    state: PropTypes.object.isRequired,
+    onDeleteContact: PropTypes.func.isRequired,
 }

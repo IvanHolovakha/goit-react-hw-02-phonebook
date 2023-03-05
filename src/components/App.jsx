@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { nanoid } from 'nanoid';
 
-import { ContactForm } from "./ContactForm";
-import { ContactList } from "./ContactList";
-import { Filter } from "./Filter";
+import { ContactForm } from "./ContactForm/ContactForm";
+import { ContactList } from "./ContactList/ContactList";
+import { Filter } from "./Filter/Filter";
 
 export class App extends Component {
   state = {
@@ -11,15 +11,11 @@ export class App extends Component {
     filter: ''
   };
 
-  handleChange = (evt) => {
+  onChangeFilter = (evt) => {
     return this.setState({filter: evt.target.value})
   };
 
-  handleSubmit = (evt) => {
-    evt.preventDefault();
-    const form = evt.target;
-    const name = form.elements.name.value;
-    const number = form.elements.number.value;
+  onAddContact = ({name, number}) => {
     const normalizedName = name.toLowerCase();
 
     if(this.state.contacts.some(contact => contact.name.toLowerCase() === normalizedName)) {
@@ -30,26 +26,23 @@ export class App extends Component {
     this.setState(prevState => {
       return {contacts: [...prevState.contacts, {name: name, id: nanoid(), number: number}]};
     })
-
-    // this.resetForm();
   };
 
-  handleDelete = (id) => {
+  onDeleteContact = (id) => {
     this.setState(({contacts}) => {
       return {contacts: contacts.filter(contact => contact.id !== id)};
     })
   };
 
-  render() {
-    
+  render() {  
     return (
-      <div>
+      <div style={{marginLeft: "50px"}}>
         <h1>Phonebook</h1>
-        <ContactForm onSubmit={this.handleSubmit}/>
+        <ContactForm onSubmit={this.onAddContact}/>
 
         <h2>Contacts</h2>
-        <Filter value={this.state.filter} onChange={this.handleChange}/>
-        <ContactList state={this.state} onDelete={this.handleDelete}/> 
+        <Filter value={this.state.filter} onChangeFilter={this.onChangeFilter}/>
+        <ContactList state={this.state} onDeleteContact={this.onDeleteContact}/> 
       </div>
     );
   }
