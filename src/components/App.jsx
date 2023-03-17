@@ -12,7 +12,7 @@ export class App extends Component {
   };
 
   onChangeFilter = (evt) => {
-    return this.setState({filter: evt.target.value})
+    return this.setState({ filter: evt.target.value });
   };
 
   onAddContact = ({name, number}) => {
